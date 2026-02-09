@@ -1,0 +1,15 @@
+{
+  "name": "PLAYBOOK OS",
+  "short_name": "PLAYBOOK",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#00f3ff",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/5915/5915462.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
