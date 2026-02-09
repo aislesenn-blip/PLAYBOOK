@@ -2,41 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PLAYBOOK OS | THE APEX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PLAYBOOK | The Apex Entity</title>
     <link rel="manifest" href="manifest.json">
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;800&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div id="landing-page">
-        <h1 class="hero-title">PLAYBOOK</h1>
-        <p class="hero-subtitle">UNIVERSAL OPERATING ENTITY</p>
-        <button id="init-btn" onclick="wakeSystem()">INITIALIZE SYSTEM</button>
+        <nav>
+            <div class="logo">PLAYBOOK</div>
+            <div class="menu">
+                <span>Capabilities</span>
+                <span>Security</span>
+                <span>Manifesto</span>
+            </div>
+        </nav>
+
+        <div class="hero-section">
+            <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
+            
+            <h1 class="fade-in">BEYOND INTELLIGENCE.</h1>
+            <p class="sub-text fade-in-delay">
+                Not a chatbot. Not an assistant. <br>
+                The world's first <strong>Universal Operating Entity</strong>.
+            </p>
+            
+            <div class="comparison-grid fade-in-delay-2">
+                <div class="comp-item">
+                    <h3>GPT-4</h3>
+                    <p>Processing</p>
+                </div>
+                <div class="separator">vs</div>
+                <div class="comp-item highlight">
+                    <h3>PLAYBOOK</h3>
+                    <p>Reasoning & Execution</p>
+                </div>
+            </div>
+
+            <button id="init-btn" onclick="startSystem()">INITIALIZE PROTOCOL</button>
+            <p class="instruction">Click Initialize, then say: <em>"I call you Playbook"</em></p>
+        </div>
     </div>
 
-    <div id="system-ui">
-        <div id="orb" class="orb"></div>
-
-        <div id="chat-panel" class="panel">
-            <input type="text" id="chat-input" placeholder="AWAITING COMMAND..." autocomplete="off">
-            <i data-lucide="send" onclick="handleInput()" style="cursor:pointer; color:var(--neon)"></i>
+    <div id="cockpit-interface" class="hidden">
+        
+        <div class="orb-container">
+            <div id="orb" class="orb" data-state="idle"></div>
         </div>
 
-        <div id="logs-panel" class="panel">
-            <h3 style="color:var(--neon); font-size:12px;">THOUGHT STREAM</h3>
-            <div id="log-content" style="font-family:monospace; font-size:11px; color:#666;"></div>
-        </div>
+        <div id="chat-panel" class="panel"><input type="text" id="chat-input" placeholder="COMMAND LINE..."><i data-lucide="send" onclick="sendText()"></i></div>
+        <div id="logs-panel" class="panel"><h3>SYSTEM LOGS</h3><div id="log-content">> SYSTEM READY.</div></div>
+        <div id="tasks-panel" class="panel"><h3>ACTION DECK</h3><div id="task-list"><div>[IDLE] Awaiting Input</div></div></div>
+        <div id="hardware-panel" class="panel"><h3>HARDWARE</h3><div>CPU</div><div class="bar"><div class="fill" style="width:24%"></div></div></div>
+        <div id="upload-panel" class="panel"><i data-lucide="upload"></i><div style="font-size:10px;">DATA DROP</div></div>
+        <div id="training-panel" class="panel"><h3>MIMICRY</h3><button>[REC] TRAIN PLAYBOOK</button></div>
+        
+        <div id="canvas-panel" class="panel fullscreen-panel"><div class="panel-header">CREATION CANVAS <span onclick="togglePanel('canvas')">✕</span></div><div id="code-content"></div></div>
+        <div id="confirm-modal" class="panel modal"><h2>CONFIRM ACTION</h2><p id="confirm-msg"></p><button onclick="confirmAction(true)">YES</button><button onclick="confirmAction(false)">NO</button></div>
 
-        <div id="canvas-panel" class="panel">
-            <div style="padding:10px; background:#222; display:flex; justify-content:space-between;">
-                <span>CREATION CANVAS</span>
-                <span onclick="toggleCanvas(false)" style="color:red; cursor:pointer;">✕</span>
-            </div>
-            <pre id="code-display" style="padding:20px; overflow:auto; color:#0f0; background:#000; flex:1;"></pre>
-        </div>
+        <div id="failsafe-btn" onclick="location.reload()"></div>
     </div>
 
     <script src="script.js"></script>
