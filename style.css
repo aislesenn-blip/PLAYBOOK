@@ -1,0 +1,57 @@
+:root {
+    --glass: rgba(10, 10, 10, 0.95);
+    --border: rgba(255, 255, 255, 0.1);
+    --neon: #00f3ff;
+    --gold: #ffd700;
+}
+
+body, html {
+    margin: 0; padding: 0; height: 100%; width: 100%;
+    background: #000; color: #fff; font-family: 'Rajdhani', sans-serif;
+    overflow: hidden;
+}
+
+/* LANDING PAGE */
+#landing-page {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at center, #111 0%, #000 100%);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    z-index: 1000; transition: 1s ease-in-out;
+}
+
+.hero-title { font-size: 80px; letter-spacing: 20px; font-weight: 700; margin: 0; color: #fff; text-shadow: 0 0 30px rgba(255,255,255,0.2); }
+.hero-subtitle { color: var(--neon); letter-spacing: 5px; margin-bottom: 40px; }
+
+#init-btn {
+    padding: 15px 40px; background: transparent; border: 1px solid var(--neon);
+    color: var(--neon); font-size: 18px; cursor: pointer; letter-spacing: 3px;
+    transition: 0.3s;
+}
+
+#init-btn:hover { background: var(--neon); color: #000; box-shadow: 0 0 50px var(--neon); }
+
+/* SYSTEM INTERFACE */
+#system-ui { opacity: 0; transition: 2s; display: none; }
+#system-ui.active { opacity: 1; display: block; }
+
+.orb {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 150px; height: 150px; border-radius: 50%; background: #fff;
+    box-shadow: 0 0 80px rgba(0, 243, 255, 0.5); cursor: pointer; z-index: 100;
+}
+
+/* PANELS */
+.panel {
+    position: absolute; background: var(--glass); border: 1px solid var(--border);
+    border-radius: 8px; padding: 15px; backdrop-filter: blur(10px);
+    transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#chat-panel { bottom: 30px; left: 50%; transform: translateX(-50%); width: 600px; display: flex; gap: 10px; }
+#chat-input { flex: 1; background: transparent; border: none; border-bottom: 1px solid #444; color: #fff; font-size: 20px; outline: none; }
+
+#logs-panel { bottom: 30px; left: 30px; width: 300px; height: 250px; border-left: 3px solid var(--neon); }
+#canvas-panel { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; height: 70%; z-index: 200; display: none; }
+#canvas-panel.visible { display: flex; flex-direction: column; }
+
+.hidden { display: none !important; }
