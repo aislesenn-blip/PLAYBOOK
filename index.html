@@ -18,10 +18,11 @@
             --bg: #000000;
             --text-main: #ffffff;
             --text-muted: #888888;
-            --accent: #ffffff; /* Monochrome Luxury */
+            --accent: #ffffff; 
             --glass: rgba(255, 255, 255, 0.05);
             --border: rgba(255, 255, 255, 0.1);
             --ease: cubic-bezier(0.16, 1, 0.3, 1);
+            --orb-glow: #00f3ff;
         }
 
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
@@ -43,7 +44,6 @@
         .brand-header {
             display: flex; align-items: center; gap: 15px; margin-bottom: 40px;
         }
-        .brand-logo { width: 50px; height: 50px; background: white; border-radius: 12px; } /* SVG Logo Here */
         
         h1.hero-title {
             font-size: 64px; font-weight: 600; letter-spacing: -2px;
@@ -98,18 +98,36 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
-        /* --- COPY YOUR PREVIOUS CSS FOR ORB HERE --- */
-        /* Nitaweka CSS ile ya Premium Orb hapa kwa kifupi */
-        .orb-core { width: 200px; height: 200px; background: radial-gradient(circle, #fff, #ccc); border-radius: 50%; box-shadow: 0 0 80px rgba(255,255,255,0.5); animation: breathe 4s infinite; cursor: pointer; }
-        @keyframes breathe { 50% { transform: scale(1.05); opacity: 0.8; } }
+        /* ORB STYLES (Fixed) */
+        .orb-core { 
+            width: 200px; height: 200px; border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fff, var(--orb-glow));
+            box-shadow: 0 0 80px var(--orb-glow), inset 0 0 40px var(--orb-glow);
+            animation: breathe 4s infinite ease-in-out; 
+            cursor: pointer; transition: all 0.5s ease;
+        }
         
+        .orb-core[data-state="processing"] { 
+            animation: spin 1s infinite linear; 
+            border: 4px dashed #fff; background: black; 
+        }
+
+        @keyframes breathe { 0%, 100% { opacity: 0.8; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        
+        /* DOCK BAR */
         .dock-bar {
             position: absolute; bottom: 40px; 
             background: rgba(20,20,20,0.8); border: 1px solid var(--border);
-            padding: 15px 30px; border-radius: 40px; display: flex; gap: 20px;
-            backdrop-filter: blur(20px);
+            padding: 15px 30px; border-radius: 40px; display: flex; align-items: center; gap: 20px;
+            backdrop-filter: blur(20px); box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
-        .dock-input { background: transparent; border: none; color: white; font-size: 16px; width: 400px; outline: none; }
+        .dock-input { 
+            background: transparent; border: none; color: white; 
+            font-size: 16px; width: 400px; outline: none; font-family: 'Inter';
+        }
+        .dock-icon { color: #888; cursor: pointer; transition: 0.2s; }
+        .dock-icon:hover { color: white; }
 
     </style>
 </head>
@@ -120,7 +138,7 @@
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
             </svg>
-            <span style="font-weight: 600; letter-spacing: 1px;">Playbook</span>
+            <span style="font-weight: 600; letter-spacing: 1px; font-size: 20px;">Playbook</span>
         </div>
 
         <h1 class="hero-title">
@@ -157,17 +175,17 @@
     <div id="transition-layer">
         <lottie-player 
             src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" 
-            background="transparent" speed="1.5" style="width: 300px; height: 300px;" loop="false" autoplay id="lottie-anim">
+            background="transparent" speed="1" style="width: 300px; height: 300px;" loop="false" autoplay id="lottie-anim">
         </lottie-player>
     </div>
 
     <div id="interface-layer">
-        <div class="orb-core" id="orb"></div>
+        <div class="orb-core" id="orb" data-state="idle"></div>
         
         <div class="dock-bar">
-            <i data-lucide="mic" style="color:#888"></i>
-            <input type="text" class="dock-input" placeholder="Command the engine..." id="cmd-input">
-            <i data-lucide="paperclip" style="color:#888"></i>
+            <i data-lucide="mic" class="dock-icon"></i>
+            <input type="text" class="dock-input" placeholder="Command the engine..." id="cmd-input" autocomplete="off">
+            <i data-lucide="paperclip" class="dock-icon"></i>
         </div>
     </div>
 
@@ -181,41 +199,51 @@
             // 2. Show Transition
             setTimeout(() => {
                 document.getElementById('landing-page').style.display = 'none';
-                document.getElementById('transition-layer').style.display = 'flex';
+                const transLayer = document.getElementById('transition-layer');
+                transLayer.style.display = 'flex';
+                
+                // Play Animation
                 const player = document.getElementById('lottie-anim');
                 player.play();
 
-                // 3. Reveal Interface after animation
+                // 3. Reveal Interface after animation (2.5s)
                 setTimeout(() => {
-                    document.getElementById('transition-layer').style.opacity = '0';
+                    transLayer.style.opacity = '0';
                     setTimeout(() => {
-                        document.getElementById('transition-layer').style.display = 'none';
+                        transLayer.style.display = 'none';
                         const ui = document.getElementById('interface-layer');
                         ui.style.pointerEvents = 'auto';
                         ui.style.opacity = '1';
                     }, 500);
-                }, 2500); // Animation duration
+                }, 2500); 
             }, 800);
         }
 
-        // --- CONNECT TO LOCAL PYTHON AGENT ---
+        // --- CONNECT TO LOCAL PYTHON AGENT (main.py) ---
         const input = document.getElementById('cmd-input');
+        const orb = document.getElementById('orb');
         
         input.addEventListener('keypress', async (e) => {
             if(e.key === 'Enter') {
                 const text = input.value;
-                input.value = "Executing...";
+                input.value = "";
+                orb.setAttribute('data-state', 'processing'); // Visual Feedback
                 
-                // HAPA TUNATUMA KWA LOCAL PYTHON SERVER (MAIN.PY)
+                // SEND TO PYTHON LOCAL SERVER
                 try {
                     await fetch('/execute', {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({ command: text })
                     });
-                    input.value = "";
+                    
+                    // Reset Orb after sending (In real app, wait for response)
+                    setTimeout(() => orb.setAttribute('data-state', 'idle'), 1000);
+                    
                 } catch(err) {
-                    console.log("Local Agent not connected");
+                    console.error("Local Agent Error:", err);
+                    alert("Error: Playbook Engine (main.py) is not running locally.");
+                    orb.setAttribute('data-state', 'idle');
                 }
             }
         });
