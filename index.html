@@ -3,70 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PLAYBOOK | The Apex Entity</title>
-    <link rel="manifest" href="manifest.json">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;800&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>Playbook | Automation Engine</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <link rel="stylesheet" href="style.css">
+    
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#000000">
+
+    <style>
+        /* --- CORE APPLE AESTHETICS --- */
+        :root {
+            --bg: #000000;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --accent: #ffffff; /* Monochrome Luxury */
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        
+        body {
+            margin: 0; background: var(--bg); color: var(--text-main);
+            font-family: 'Inter', sans-serif; overflow: hidden;
+            height: 100vh; display: flex; flex-direction: column;
+        }
+
+        /* --- SECTION 1: LANDING PAGE (MARKETING) --- */
+        #landing-page {
+            position: absolute; inset: 0; z-index: 100;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            background: var(--bg); transition: opacity 1s var(--ease);
+        }
+
+        .brand-header {
+            display: flex; align-items: center; gap: 15px; margin-bottom: 40px;
+        }
+        .brand-logo { width: 50px; height: 50px; background: white; border-radius: 12px; } /* SVG Logo Here */
+        
+        h1.hero-title {
+            font-size: 64px; font-weight: 600; letter-spacing: -2px;
+            line-height: 1.1; text-align: center; margin: 0;
+            background: linear-gradient(180deg, #fff, #666);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        p.hero-sub {
+            font-size: 18px; color: var(--text-muted); margin-top: 20px;
+            max-width: 600px; text-align: center; font-weight: 300;
+        }
+
+        /* FEATURES GRID */
+        .features-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+            margin-top: 60px; width: 80%; max-width: 900px;
+        }
+
+        .feature-card {
+            background: var(--glass); border: 1px solid var(--border);
+            padding: 30px; border-radius: 20px; text-align: left;
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover { transform: translateY(-5px); border-color: #fff; }
+        
+        .f-icon { margin-bottom: 15px; color: white; }
+        .f-title { font-weight: 600; font-size: 14px; margin-bottom: 5px; }
+        .f-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+        /* ACCESS BUTTON */
+        .cta-btn {
+            margin-top: 60px; padding: 15px 40px;
+            background: white; color: black; border: none;
+            border-radius: 30px; font-size: 16px; font-weight: 600;
+            cursor: pointer; transition: 0.3s var(--ease);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .cta-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,255,255,0.3); }
+
+        /* --- SECTION 2: TRANSITION LAYER (LOTTIE) --- */
+        #transition-layer {
+            position: absolute; inset: 0; z-index: 90;
+            background: black; display: none;
+            align-items: center; justify-content: center;
+        }
+
+        /* --- SECTION 3: THE INTERFACE (ORB) --- */
+        #interface-layer {
+            position: absolute; inset: 0; z-index: 80;
+            opacity: 0; pointer-events: none; transition: opacity 1.5s ease;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+
+        /* --- COPY YOUR PREVIOUS CSS FOR ORB HERE --- */
+        /* Nitaweka CSS ile ya Premium Orb hapa kwa kifupi */
+        .orb-core { width: 200px; height: 200px; background: radial-gradient(circle, #fff, #ccc); border-radius: 50%; box-shadow: 0 0 80px rgba(255,255,255,0.5); animation: breathe 4s infinite; cursor: pointer; }
+        @keyframes breathe { 50% { transform: scale(1.05); opacity: 0.8; } }
+        
+        .dock-bar {
+            position: absolute; bottom: 40px; 
+            background: rgba(20,20,20,0.8); border: 1px solid var(--border);
+            padding: 15px 30px; border-radius: 40px; display: flex; gap: 20px;
+            backdrop-filter: blur(20px);
+        }
+        .dock-input { background: transparent; border: none; color: white; font-size: 16px; width: 400px; outline: none; }
+
+    </style>
 </head>
 <body>
 
     <div id="landing-page">
-        <nav>
-            <div class="logo">PLAYBOOK</div>
-            <div class="menu">
-                <span>Capabilities</span>
-                <span>Security</span>
-                <span>Manifesto</span>
-            </div>
-        </nav>
+        <div class="brand-header">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+            <span style="font-weight: 600; letter-spacing: 1px;">Playbook</span>
+        </div>
 
-        <div class="hero-section">
-            <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay></lottie-player>
-            
-            <h1 class="fade-in">BEYOND INTELLIGENCE.</h1>
-            <p class="sub-text fade-in-delay">
-                Not a chatbot. Not an assistant. <br>
-                The world's first <strong>Universal Operating Entity</strong>.
-            </p>
-            
-            <div class="comparison-grid fade-in-delay-2">
-                <div class="comp-item">
-                    <h3>GPT-4</h3>
-                    <p>Processing</p>
-                </div>
-                <div class="separator">vs</div>
-                <div class="comp-item highlight">
-                    <h3>PLAYBOOK</h3>
-                    <p>Reasoning & Execution</p>
-                </div>
-            </div>
+        <h1 class="hero-title">
+            The Universal<br>Automation Engine.
+        </h1>
+        <p class="hero-sub">
+            Capable of executing any computer task. From enterprise data entry to creative workflows. 
+            An autonomous digital workforce.
+        </p>
 
-            <button id="init-btn" onclick="startSystem()">INITIALIZE PROTOCOL</button>
-            <p class="instruction">Click Initialize, then say: <em>"I call you Playbook"</em></p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i data-lucide="database" class="f-icon"></i>
+                <div class="f-title">Enterprise Automation</div>
+                <div class="f-desc">Automate excel, invoicing, and data entry workflows silently.</div>
+            </div>
+            <div class="feature-card">
+                <i data-lucide="cpu" class="f-icon"></i>
+                <div class="f-title">System Control</div>
+                <div class="f-desc">Full control over mouse, keyboard, and file systems via Python.</div>
+            </div>
+            <div class="feature-card">
+                <i data-lucide="zap" class="f-icon"></i>
+                <div class="f-title">Universal Tasking</div>
+                <div class="f-desc">Visual perception and reasoning for any desktop application.</div>
+            </div>
+        </div>
+
+        <button class="cta-btn" onclick="enterSystem()">
+            Access Playbook <i data-lucide="arrow-right"></i>
+        </button>
+    </div>
+
+    <div id="transition-layer">
+        <lottie-player 
+            src="https://assets2.lottiefiles.com/packages/lf20_w51pcehl.json" 
+            background="transparent" speed="1.5" style="width: 300px; height: 300px;" loop="false" autoplay id="lottie-anim">
+        </lottie-player>
+    </div>
+
+    <div id="interface-layer">
+        <div class="orb-core" id="orb"></div>
+        
+        <div class="dock-bar">
+            <i data-lucide="mic" style="color:#888"></i>
+            <input type="text" class="dock-input" placeholder="Command the engine..." id="cmd-input">
+            <i data-lucide="paperclip" style="color:#888"></i>
         </div>
     </div>
 
-    <div id="cockpit-interface" class="hidden">
+    <script>
+        lucide.createIcons();
+
+        function enterSystem() {
+            // 1. Hide Landing
+            document.getElementById('landing-page').style.opacity = '0';
+            
+            // 2. Show Transition
+            setTimeout(() => {
+                document.getElementById('landing-page').style.display = 'none';
+                document.getElementById('transition-layer').style.display = 'flex';
+                const player = document.getElementById('lottie-anim');
+                player.play();
+
+                // 3. Reveal Interface after animation
+                setTimeout(() => {
+                    document.getElementById('transition-layer').style.opacity = '0';
+                    setTimeout(() => {
+                        document.getElementById('transition-layer').style.display = 'none';
+                        const ui = document.getElementById('interface-layer');
+                        ui.style.pointerEvents = 'auto';
+                        ui.style.opacity = '1';
+                    }, 500);
+                }, 2500); // Animation duration
+            }, 800);
+        }
+
+        // --- CONNECT TO LOCAL PYTHON AGENT ---
+        const input = document.getElementById('cmd-input');
         
-        <div class="orb-container">
-            <div id="orb" class="orb" data-state="idle"></div>
-        </div>
-
-        <div id="chat-panel" class="panel"><input type="text" id="chat-input" placeholder="COMMAND LINE..."><i data-lucide="send" onclick="sendText()"></i></div>
-        <div id="logs-panel" class="panel"><h3>SYSTEM LOGS</h3><div id="log-content">> SYSTEM READY.</div></div>
-        <div id="tasks-panel" class="panel"><h3>ACTION DECK</h3><div id="task-list"><div>[IDLE] Awaiting Input</div></div></div>
-        <div id="hardware-panel" class="panel"><h3>HARDWARE</h3><div>CPU</div><div class="bar"><div class="fill" style="width:24%"></div></div></div>
-        <div id="upload-panel" class="panel"><i data-lucide="upload"></i><div style="font-size:10px;">DATA DROP</div></div>
-        <div id="training-panel" class="panel"><h3>MIMICRY</h3><button>[REC] TRAIN PLAYBOOK</button></div>
-        
-        <div id="canvas-panel" class="panel fullscreen-panel"><div class="panel-header">CREATION CANVAS <span onclick="togglePanel('canvas')">✕</span></div><div id="code-content"></div></div>
-        <div id="confirm-modal" class="panel modal"><h2>CONFIRM ACTION</h2><p id="confirm-msg"></p><button onclick="confirmAction(true)">YES</button><button onclick="confirmAction(false)">NO</button></div>
-
-        <div id="failsafe-btn" onclick="location.reload()"></div>
-    </div>
-
-    <script src="script.js"></script>
+        input.addEventListener('keypress', async (e) => {
+            if(e.key === 'Enter') {
+                const text = input.value;
+                input.value = "Executing...";
+                
+                // HAPA TUNATUMA KWA LOCAL PYTHON SERVER (MAIN.PY)
+                try {
+                    await fetch('/execute', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ command: text })
+                    });
+                    input.value = "";
+                } catch(err) {
+                    console.log("Local Agent not connected");
+                }
+            }
+        });
+    </script>
 </body>
 </html>
